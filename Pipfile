@@ -9,6 +9,10 @@ django = "*"
 django-heroku = "*"
 gunicorn = "*"
 portalocker = "*"
+python-decouple = "*"
+validate-email = "*"
+xlwt = "*"
+six = "*"
 
 [dev-packages]
 

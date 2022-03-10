@@ -1,10 +1,72 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <h1>Expense Home index</h1>
-    <h1>Expense Home index</h1>
-    <h1>Expense Home index</h1>
-    <h1>Expense Home index</h1>
-    <h1>Expense Home index</h1>
-    <h1>Expense Home index</h1>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="">Expenses</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            My Expenses
+          </li>
+        </ol>
+      </nav>
+    </div>
+
+    <div class="col-md-2">
+      <a href="{% url 'export-csv' %}" class="btn btn-secondary" >Export CSV</a>
+    </div>
+    <div class="col-md-2">
+      <a href="{% url 'add-expenses'%}" class="btn btn-primary">Add Expense</a>
+    </div>
+  </div>
+
+  <div class="container">
+    {% include 'partials/_messages.html' %} {% if expenses.count %}
+
+<div class="app-table mt-4">
+
+  <table class="table table-stripped table-hover">
+    <thead>
+      <tr>
+        <th>Amount(BDT)</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Date</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for expense in expenses%}
+      <tr>
+        <td>{{expense.amount}}</td>
+        <td>{{expense.category}}</td>
+        <td>{{expense.description}}</td>
+        <td>{{expense.date}}</td>
+
+        <td>
+          <a
+            href="{% url 'expense-edit' expense.id  %}"
+            class="btn btn-secondary btn-sm"
+            >Edit</a
+          >
+        </td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+
+    {% endif %}
+</div>
+</div>
+
 {% endblock content %}

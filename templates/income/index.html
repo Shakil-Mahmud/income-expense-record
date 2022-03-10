@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="">Income</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            My Income
+          </li>
+        </ol>
+      </nav>
+    </div>
+
+    <div class="col-md-2">
+      <a href="{% url 'income-export-csv' %}" class="btn btn-secondary" >Export CSV</a>
+    </div>
+    <div class="col-md-2">
+      <a href="{% url 'add-income'%}" class="btn btn-primary">Add Income</a>
+    </div>
+  </div>
+
+   <div class="container">
+    {% include 'partials/_messages.html' %}
+
+    {% if incomes.count %}
+
+    <div class="app-table mt-4">
+
+      <table class="table table-stripped table-hover">
+        <thead>
+          <tr>
+            <th>Amount(BDT)</th>
+            <th>Source</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for income in incomes%}
+          <tr>
+            <td>{{income.amount}}</td>
+            <td>{{income.source}}</td>
+            <td>{{income.description}}</td>
+            <td>{{income.date}}</td>
+
+            <td>
+              <a
+                href="{% url 'income-edit' income.id  %}"
+                class="btn btn-secondary btn-sm"
+                >Edit</a
+              >
+            </td>
+          </tr>
+
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% endif %}
+  </div>
+</div>
+
+
+{% endblock content %}

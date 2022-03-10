@@ -9,8 +9,12 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+from email.message import Message
 import os
 from pathlib import Path
+from decouple import config
+from django import conf
+from django.contrib import messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'expenses',
     'authentication',
+    'userincome',
 ]
 
 MIDDLEWARE = [
@@ -78,14 +83,13 @@ WSGI_APPLICATION = 'expensetracker.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'expenserecord',
-        'USER': 'postgres',
-        'PASSWORD': 'passcode',
-        'HOST': 'localhost',
-        'PORT': '5432' 
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_USER_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'), 
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -125,13 +129,23 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'expensetracker/static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
-#STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 
 import django_heroku
 django_heroku.settings(locals())
+
+MESSAGE_TAGS = {
+    messages.ERROR : 'danger'
+}
+
+EMAIL_HOST= config('EMAIL_HOST')
+EMAIL_HOST_USER= config('EMAIL_HOST_USER')
+DEFAUL_FROM_EMAIL=config('DEFAUL_FROM_EMAIL')
+EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_USE_TLS = True
